@@ -1,0 +1,21 @@
+{
+  "name": "Traccia Spesa",
+  "short_name": "Traccia Spesa",
+  "description": "Un'app semplice e veloce per tenere traccia della spesa, visualizzare lo storico e monitorare il totale in tempo reale.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

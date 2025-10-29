@@ -1,0 +1,5 @@
+{
+  "name": "Traccia Spesa",
+  "description": "Un'app semplice e veloce per tenere traccia della spesa, visualizzare lo storico e monitorare il totale in tempo reale.",
+  "requestFramePermissions": []
+}

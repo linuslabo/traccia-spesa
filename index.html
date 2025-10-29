@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Traccia Spesa</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <meta name="theme-color" content="#0f172a"/>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Simple scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-secondary, #1e293b);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--border-color, #475569);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: var(--text-muted, #64748b);
+      }
+
+      /* CSS Variables for Theming */
+      :root { /* Light Theme */
+        --bg-primary: #f8fafc; /* slate-50 */
+        --bg-secondary: #ffffff;
+        --bg-tertiary: #f1f5f9; /* slate-100 */
+        --bg-backdrop: rgba(255, 255, 255, 0.8);
+        --border-color: #e2e8f0; /* slate-200 */
+        --border-transparent: transparent;
+        --text-primary: #1e293b; /* slate-800 */
+        --text-secondary: #475569; /* slate-600 */
+        --text-muted: #64748b; /* slate-500 */
+        --accent-color: #0891b2; /* cyan-600 */
+        --accent-hover: #06b6d4; /* cyan-500 */
+        --accent-text: #0891b2; /* cyan-600 */
+        --text-on-accent: #ffffff;
+        --danger-text: #dc2626; /* red-600 */
+      }
+
+      [data-theme='dark'] {
+        --bg-primary: #0f172a; /* slate-900 */
+        --bg-secondary: #1e293b; /* slate-800 */
+        --bg-tertiary: #334155; /* slate-700 */
+        --bg-backdrop: rgba(30, 41, 59, 0.8);
+        --border-color: #475569; /* slate-600 */
+        --text-primary: #f8fafc; /* slate-50 */
+        --text-secondary: #94a3b8; /* slate-400 */
+        --text-muted: #64748b; /* slate-500 */
+        --accent-color: #22d3ee; /* cyan-400 */
+        --accent-hover: #67e8f9; /* cyan-300 */
+        --accent-text: #22d3ee; /* cyan-400 */
+        --text-on-accent: #0f172a;
+        --danger-text: #f87171; /* red-400 */
+      }
+
+      [data-theme='amoled'] {
+        --bg-primary: #000000;
+        --bg-secondary: #111111;
+        --bg-tertiary: #1f1f1f;
+        --bg-backdrop: rgba(0, 0, 0, 0.8);
+        --border-color: #2f2f2f;
+        --text-primary: #f8fafc;
+        --text-secondary: #a0a0a0;
+        --text-muted: #666666;
+        --accent-color: #22d3ee;
+        --accent-hover: #67e8f9;
+        --accent-text: #22d3ee;
+        --text-on-accent: #0f172a;
+        --danger-text: #f87171;
+      }
+
+      /* Apply variables */
+      .bg-primary { background-color: var(--bg-primary); }
+      .bg-secondary { background-color: var(--bg-secondary); }
+      .bg-tertiary { background-color: var(--bg-tertiary); }
+      .bg-backdrop { background-color: var(--bg-backdrop); }
+
+      .text-primary { color: var(--text-primary); }
+      .text-secondary { color: var(--text-secondary); }
+      .text-muted { color: var(--text-muted); }
+      .placeholder-color::placeholder { color: var(--text-muted); }
+      .text-danger { color: var(--danger-text); }
+
+      .border-color { border-color: var(--border-color); }
+      .border-transparent { border-color: var(--border-transparent); }
+
+      .accent-bg { background-color: var(--accent-color); }
+      .accent-bg-hover:hover { background-color: var(--accent-hover); }
+      .accent-text { color: var(--accent-text); }
+      .text-on-accent { color: var(--text-on-accent); }
+      .accent-border-focus:focus { border-color: var(--accent-color); }
+      .accent-border { border-color: var(--accent-color) !important; }
+
+      .animate-fade-in {
+        animation: fadeIn 0.3s ease-in-out;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-primary text-primary">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+
+    <!-- PWA -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then(registration => {
+            console.log('SW registered: ', registration);
+          }).catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
