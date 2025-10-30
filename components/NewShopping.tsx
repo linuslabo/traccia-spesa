@@ -53,10 +53,10 @@ const NewShopping: React.FC<NewShoppingProps> = ({ items, setItems, onSaveSessio
     const priceNum = parseFloat(price.replace(',', '.'));
     const quantityNum = parseInt(quantity, 10);
 
-    if (name.trim() && !isNaN(priceNum) && priceNum > 0 && !isNaN(quantityNum) && quantityNum > 0) {
+    if (!isNaN(priceNum) && priceNum > 0 && !isNaN(quantityNum) && quantityNum > 0) {
       const newItem: Product = {
         id: generateId(),
-        name: name.trim(),
+        name: name.trim() || '-',
         price: priceNum,
         quantity: quantityNum,
       };
@@ -88,7 +88,6 @@ const NewShopping: React.FC<NewShoppingProps> = ({ items, setItems, onSaveSessio
           onChange={(e) => setName(e.target.value)}
           placeholder="Nome prodotto"
           className="w-full bg-tertiary text-primary placeholder-color p-3 rounded-md border-2 border-transparent accent-border-focus focus:outline-none"
-          required
         />
         <div className="flex gap-4">
           <input
@@ -100,16 +99,30 @@ const NewShopping: React.FC<NewShoppingProps> = ({ items, setItems, onSaveSessio
             className="w-1/2 bg-tertiary text-primary placeholder-color p-3 rounded-md border-2 border-transparent accent-border-focus focus:outline-none"
             required
           />
-          <input
-            type="number"
-            inputMode="numeric"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            placeholder="Quantità"
-            min="1"
-            className="w-1/2 bg-tertiary text-primary placeholder-color p-3 rounded-md border-2 border-transparent accent-border-focus focus:outline-none"
-            required
-          />
+          <div className="relative w-1/2">
+            <input
+              type="number"
+              inputMode="numeric"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              placeholder="Quantità"
+              min="1"
+              className="w-full bg-tertiary text-primary placeholder-color p-3 pr-12 rounded-md border-2 border-transparent accent-border-focus focus:outline-none"
+              required
+            />
+            <button
+              type="button"
+              aria-label="Incrementa quantità"
+              onClick={() => {
+                const current = parseInt(quantity, 10);
+                const next = isNaN(current) ? 1 : Math.max(1, current + 1);
+                setQuantity(String(next));
+              }}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-md accent-bg text-on-accent accent-bg-hover"
+            >
+              <PlusIcon className="h-4 w-4" />
+            </button>
+          </div>
         </div>
         <button
           type="submit"
