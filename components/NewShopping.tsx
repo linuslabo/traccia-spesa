@@ -16,6 +16,26 @@ const NewShopping: React.FC<NewShoppingProps> = ({ items, setItems, onSaveSessio
   const [quantity, setQuantity] = useState('1');
   const nameInputRef = useRef<HTMLInputElement>(null);
 
+  const generateId = (): string => {
+    // Prefer native randomUUID when available
+    try {
+      if (typeof crypto !== 'undefined' && typeof (crypto as any).randomUUID === 'function') {
+        return (crypto as any).randomUUID();
+      }
+    } catch {}
+    // Fallback using getRandomValues (RFC4122 v4)
+    if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+      const bytes = new Uint8Array(16);
+      crypto.getRandomValues(bytes);
+      bytes[6] = (bytes[6] & 0x0f) | 0x40; // version 4
+      bytes[8] = (bytes[8] & 0x3f) | 0x80; // variant
+      const hex = Array.from(bytes, b => b.toString(16).padStart(2, '0'));
+      return `${hex[0]}${hex[1]}${hex[2]}${hex[3]}-${hex[4]}${hex[5]}-${hex[6]}${hex[7]}-${hex[8]}${hex[9]}-${hex[10]}${hex[11]}${hex[12]}${hex[13]}${hex[14]}${hex[15]}`;
+    }
+    // Last-resort fallback
+    return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+  };
+
   useEffect(() => {
     nameInputRef.current?.focus();
   }, [])
@@ -35,7 +55,7 @@ const NewShopping: React.FC<NewShoppingProps> = ({ items, setItems, onSaveSessio
 
     if (name.trim() && !isNaN(priceNum) && priceNum > 0 && !isNaN(quantityNum) && quantityNum > 0) {
       const newItem: Product = {
-        id: crypto.randomUUID(),
+        id: generateId(),
         name: name.trim(),
         price: priceNum,
         quantity: quantityNum,
@@ -131,7 +151,7 @@ const NewShopping: React.FC<NewShoppingProps> = ({ items, setItems, onSaveSessio
             <p className="text-3xl font-bold accent-text">€{total.toFixed(2)}</p>
             {mealVoucherValue > 0 && total > 0 && (
               <div className="flex items-center gap-2 mt-1 text-xs text-secondary">
-                <TicketIcon className="h-4 w-4 flex-shrink-0" />
+                <TicketIcon className="h-4 w-4 shrink-0" />
                 <span>
                   <strong>{vouchersUsed}</strong> buoni usati &bull; Mancano <strong>€{remainingForNext.toFixed(2)}</strong>
                 </span>

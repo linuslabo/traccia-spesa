@@ -181,14 +181,14 @@ const App: React.FC = () => {
 
   return (
     <div className="bg-primary text-primary min-h-screen font-sans">
-      <div className="container mx-auto max-w-lg p-4 pb-24">
+      <div className="container mx-auto max-w-lg p-4 pb-24 min-h-[100dvh] flex flex-col">
         {currentTitleInfo && (
           <header className="text-center my-6 animate-fade-in">
             <h1 className="text-4xl font-bold accent-text tracking-tight">{currentTitleInfo.title}</h1>
             <p className="text-muted mt-1">{currentTitleInfo.subtitle}</p>
           </header>
         )}
-        <main>
+        <main className="flex-1 overflow-y-auto pb-40">
           {view === 'new' && <NewShopping items={currentItems} setItems={setCurrentItems} onSaveSession={handleSaveSession} mealVoucherValue={settings.mealVoucherValue} isEditing={!!editingSessionId} />}
           {view === 'history' && <History history={history} onEditSession={handleEditSession} />}
           {view === 'settings' && <Settings settings={settings} setSettings={setSettings} />}
