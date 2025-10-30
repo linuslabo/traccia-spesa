@@ -1,8 +1,7 @@
 const CACHE_NAME = 'traccia-spesa-cache-v2';
 const URLS_TO_CACHE = [
   '/',
-  '/index.html',
-  'https://cdn.tailwindcss.com'
+  '/index.html'
 ];
 
 self.addEventListener('install', event => {
