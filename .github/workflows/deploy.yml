@@ -36,6 +36,11 @@ jobs:
           # Custom domain serves at root path
           BASE_PATH: /
 
+      - name: Copy root static files (SW, CNAME)
+        run: |
+          cp sw.js dist/sw.js || true
+          cp CNAME dist/CNAME || true
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
