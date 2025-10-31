@@ -131,8 +131,46 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').then(registration => {
+          navigator.serviceWorker.register('/sw.js', { 
+            // Update the service worker more aggressively
+            updateViaCache: 'none'
+          }).then(registration => {
             console.log('SW registered: ', registration);
+
+            // Check for updates periodically (every hour)
+            setInterval(() => {
+              registration.update();
+            }, 3600000); // 1 hour
+
+            // Check for updates when page becomes visible
+            document.addEventListener('visibilitychange', () => {
+              if (!document.hidden) {
+                registration.update();
+              }
+            });
+
+            // Listen for new service worker available
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New service worker is available, reload to activate it
+                    console.log('New service worker available, reloading...');
+                    window.location.reload();
+                  }
+                });
+              }
+            });
+
+            // Handle controller change (service worker activated)
+            let refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+              if (!refreshing) {
+                refreshing = true;
+                window.location.reload();
+              }
+            });
           }).catch(registrationError => {
             console.log('SW registration failed: ', registrationError);
           });
